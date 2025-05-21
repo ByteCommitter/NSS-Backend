@@ -32,13 +32,13 @@ Content-Type: application/json
 
 ###Get the todos of the user- can't unless give the auth string in the header of this body
 GET  http://localhost:8151/todos/
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3ODQ4MDM0LCJleHAiOjE3NDc5MzQ0MzR9.eCxZHQJSSX5b2sGvPe5kgnSzltEVAVBqBP195VerCB4
 
 
 
 ###POSt the new data
 POST  http://localhost:8151/todos/
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3ODQ4MDM0LCJleHAiOjE3NDc5MzQ0MzR9.eCxZHQJSSX5b2sGvPe5kgnSzltEVAVBqBP195VerCB4
 Content-Type: application/json
 
 {
@@ -46,19 +46,19 @@ Content-Type: application/json
 }
 
 ###UPDATE with put the new data
-PUT  http://localhost:8151/todos/4/taskUpdate
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
+PUT  http://localhost:8151/todos/6/taskUpdate
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3ODQ4MDM0LCJleHAiOjE3NDc5MzQ0MzR9.eCxZHQJSSX5b2sGvPe5kgnSzltEVAVBqBP195VerCB4
 Content-Type: application/json
 
 {
-    "task":"Finish Coding the project 4",
+    "task":"Finish Coding the project 3",
     "completed":1
 }
 
 
 ###Update the button with done // the rest of the params added extra in the request payload is ignored by the backend
 PUT  http://localhost:8151/todos/6
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3ODQ4MDM0LCJleHAiOjE3NDc5MzQ0MzR9.eCxZHQJSSX5b2sGvPe5kgnSzltEVAVBqBP195VerCB4
 Content-Type: application/json
 
 {

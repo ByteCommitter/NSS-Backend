@@ -37,7 +37,7 @@ router.post('/login',async(req,res)=>{
         console.log('User is present in db')
 
         //Guard to check if user has correct passwd
-        const passwordIsValid=bcrypt.compareSync(password,user.PASSWORD);
+        const passwordIsValid=bcrypt.compareSync(password,user.password);
         
         if(!passwordIsValid){
             console.log('Invalid password! Message sent to user');
@@ -46,7 +46,7 @@ router.post('/login',async(req,res)=>{
 
         console.log('User entered valid password')
         //user is authenticated, we can move in...
-        const token=jwt.sign({id:user.ID},process.env.JWT_SECRET,{expiresIn:'24h'})
+        const token=jwt.sign({id:user.id},process.env.JWT_SECRET,{expiresIn:'24h'})
         
         res.json({token})
 
@@ -77,6 +77,8 @@ router.post('/register', async (req,res)=>{
         // const result=insertUser.run(registerBody.username,hashedPassword);
 
         //db is 3rd party, so comm between server and db is asynchronous
+        const username = registerBody.username;
+
         const user=await prisma.user.create({
             data:{
                 username,
@@ -121,6 +123,6 @@ router.post('/register', async (req,res)=>{
 
 router.post('/logout',(req,res)=>{
     //the JWT tokens should be deleted
-    //the 
 })
+
 export default router;
