@@ -1,0 +1,28 @@
+//emulates the process of sending out non visual data requests
+
+###TEST GET HOME
+GET http://localhost:8081
+
+###TEST GET DASHBOARD
+GET http://localhost:8081/dashboard
+
+###DATA ENDPOINT:
+GET http://localhost:8081/api/data
+
+
+###POST Add User ENDPOINT:
+POST http://localhost:8081/api/data
+Content-Type: application/json
+
+{
+    "name":"drizzygesh"
+}
+
+###Delete request
+DELETE http://localhost:8081/api/endpoint
+Content-Type: application/json
+
+{
+    "name":"drizzygesh"
+}
+
