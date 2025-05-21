@@ -1,0 +1,2 @@
+since server.js has a lot of routes,
+we're creating a folder called routes which will contain all the routes
