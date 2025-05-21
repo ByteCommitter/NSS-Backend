@@ -68,7 +68,7 @@ Content-Type: application/json
 
 
 ###Delete the task
-DELETE  http://localhost:8151/todos/2
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
+DELETE  http://localhost:8151/todos/3
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3ODQ4MDM0LCJleHAiOjE3NDc5MzQ0MzR9.eCxZHQJSSX5b2sGvPe5kgnSzltEVAVBqBP195VerCB4
 
 

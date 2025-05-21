@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en</header>">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -105,8 +105,8 @@
                     return true
                 }
                 return btnText === 'Complete' ?
-                    val.COMPLETED :
-                    !val.COMPLETED
+                    val.completed :
+                    !val.completed
             }).length
 
             // target inside space and update value
@@ -134,14 +134,14 @@
 
         let todoList = ``
         todos.filter(val => {
-            return selectedTab === 'All' ? true : selectedTab === 'Complete' ? val.COMPLETED : !val.COMPLETED
+            return selectedTab === 'All' ? true : selectedTab === 'Complete' ? val.completed : !val.completed
         }).forEach((todo, todoIndex) => {
-            const taskIndex = todo.ID
+            const taskIndex = todo.id
             todoList += `
             <div class="card todo-item">
-                <p>${todo.TASK}</p>
+                <p>${todo.task}</p>
                 <div class="todo-buttons">
-                    <button onclick="updateTodo(${taskIndex})" ${todo.COMPLETED ? 'disabled' : ''}>
+                    <button onclick="updateTodo(${taskIndex})" ${todo.completed ? 'disabled' : ''}>
                         <h6>Done</h6>
                     </button>
                     <button onclick="deleteTodo(${taskIndex})">
@@ -253,7 +253,6 @@
         const response = await fetch(apiBase + 'todos', {
             headers: { 'Authorization': token }
         })
-        //we send out our locally stored token to show the authorized user is accessing data.
         const todosData = await response.json()
         todos = todosData
         isLoading = false
@@ -261,21 +260,16 @@
     }
 
     async function updateTodo(index) {
-        console.log(`${index} is the value of the task to change`);
-        const currentTodo = todos.find(val => val.ID === index);
-        if (!currentTodo){console.log('updating failed to recieved index of task to update'); return;}
-        console.log(`${JSON.stringify(currentTodo)}`);
-
-        const updatedStatus = !currentTodo.COMPLETED;
-        await fetch(apiBase + 'todos/' + index, {
+        // set task complete status to true
+        await fetch(apiBase + 'todos' + '/' + index, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token
             },
-            body: JSON.stringify({ task: currentTodo.TASK, completed: 1 })
+            body: JSON.stringify({ task: todos.find(val => val.id === index).task, completed: 1 })
         })
-        await fetchTodos()
+        fetchTodos()
     }
 
     async function deleteTodo(index) {
