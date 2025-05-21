@@ -1,5 +1,4 @@
 import express from 'express'
-import db from '../db.js'
 import prisma from '../prismaClient.js'
 
 const router=express.Router();
@@ -55,26 +54,56 @@ router.post('/',async(req,res)=>{
 
 //update task with completion
 //update a task
-router.put('/:id', (req, res) => {
-    const { completed } = req.body;
-    const { id } = req.params;
+// router.put('/:id', (req, res) => {
+//     const { completed } = req.body;
+//     const { id } = req.params;
     
-    try {
-        const updatedToDo = db.prepare(`
-            UPDATE todos SET completed = ? WHERE id = ?
-        `);
-        const result = updatedToDo.run(completed, id);
+//     try {
+//         const updatedToDo = db.prepare(`
+//             UPDATE todos SET completed = ? WHERE id = ?
+//         `);
+//         const result = updatedToDo.run(completed, id);
         
-        if (result.changes === 0) {
-            return res.status(404).json({ error: 'Todo not found' });
+//         if (result.changes === 0) {
+//             return res.status(404).json({ error: 'Todo not found' });
+//         }
+        
+//         res.json({ id, completed });
+//     } catch (error) {
+//         console.error('Update failed:', error);
+//         res.status(500).json({ error: 'Failed to update todo' });
+//     }
+// });
+//update only prismafied:
+router.put('/:id',async (req,res)=>{
+    //we're updating the id of the task
+    const {completed}=req.body;
+    const {id}=req.params;
+    console.log(`Starting to update database on assigned Task ${id}`);
+    
+    const {page}=req.query;
+    console.log(page);
+    //We can get the information 
+    //from the three ways - body, params or as a query
+    // const updatedToDo=db.prepare(`
+    //                             UPDATE todos SET task=?,completed=?  WHERE id = ?                      
+    //     `)
+    // const result=updatedToDo.run(task,completed,id);
+
+    const updatedToDo=await prisma.todo.update({
+        data:{
+            completed: !!completed
+        },
+        where:{
+            id:parseInt(id),
+            userId:parseInt(req.USERID)
         }
-        
-        res.json({ id, completed });
-    } catch (error) {
-        console.error('Update failed:', error);
-        res.status(500).json({ error: 'Failed to update todo' });
-    }
+    })
+
+    res.json(updatedToDo)
+     
 });
+
 
 //update a task name
 router.put('/:id/taskUpdate',async (req,res)=>{

@@ -1,0 +1,33 @@
+# we might have  mutliple docker containers in our file, and in order to instantiate all
+#of them and orchestrate them to gether we could use this yaml file
+
+version: '3'
+services:
+  app:
+    build: .
+    container_name: NSS-app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/nss-app
+      - JWT_SECRET=its_my_secretttt
+      - NODE_ENV=development
+      - PORT=8151
+    ports:
+      - "8151:8151"
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+  db:
+    image: postgres:13-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nss-app
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  
+volumes:
+  postgres-data:

@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//we need to create models for js to interact with the database
+//orm helps with migration, all changes to db and doing ver control to db is v diff
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+  todos    Todo[]
+}
+
+model Todo {
+  id        Int     @id @default(autoincrement())
+  task      String
+  completed Boolean @default(false)
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+}
