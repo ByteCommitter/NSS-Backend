@@ -1,26 +1,27 @@
 ###GET HOMe page /
-GET http://localhost:8151/
+GET http://localhost:8081/
 
 ###POST to register a user
-POST  http://localhost:8151/auth/register
+POST  http://localhost:8081/auth/register
 Content-Type: application/json
 
 {
-    "username":"drizzgesh@gmail.com",
-    "password":"j318nmd1398eu"
+    "university_id":"f20220226",
+    "username":"SriRam",
+    "password":"123123"
 }
 
 ###POST to login a user
-POST  http://localhost:8151/auth/login
+POST  http://localhost:8081/auth/login
 Content-Type: application/json
 
 {
-    "username":"logincheck@gmial.com",
-    "password":"uifhrvwof"
+    "id":"f20220226",
+    "password":"123123"
 }
 
 ###New test case of user signed up
-POST  http://localhost:8151/auth/login
+POST  http://localhost:8081/auth/login
 Content-Type: application/json
 
 {
@@ -31,13 +32,13 @@ Content-Type: application/json
 //TODOs:
 
 ###Get the todos of the user- can't unless give the auth string in the header of this body
-GET  http://localhost:8151/todos/
+GET  http://localhost:8081/todos/
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
 
 
 
 ###POSt the new data
-POST  http://localhost:8151/todos/
+POST  http://localhost:8081/todos/
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
 Content-Type: application/json
 
@@ -46,7 +47,7 @@ Content-Type: application/json
 }
 
 ###UPDATE with put the new data
-PUT  http://localhost:8151/todos/4/taskUpdate
+PUT  http://localhost:8081/todos/4/taskUpdate
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
 Content-Type: application/json
 
@@ -57,7 +58,7 @@ Content-Type: application/json
 
 
 ###Update the button with done // the rest of the params added extra in the request payload is ignored by the backend
-PUT  http://localhost:8151/todos/6
+PUT  http://localhost:8081/todos/6
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
 Content-Type: application/json
 
@@ -68,7 +69,7 @@ Content-Type: application/json
 
 
 ###Delete the task
-DELETE  http://localhost:8151/todos/2
+DELETE  http://localhost:8081/todos/2
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
 
 

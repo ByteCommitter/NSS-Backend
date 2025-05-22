@@ -9,17 +9,17 @@ const router=express.Router();
 // and save this in the db, if equal then we're safe
 
 router.post('/login',(req,res)=>{
-    let {username,password}=req.body;
+    let {id,password}=req.body;
 
     //check the username and password which is hashed
     //with db and log them into the app.
-    console.log(`${username} is the username with paswd: ${password} recieved`)
+    console.log(`${id} is the id of the user with passwd: ${password} recieved`)
     try{
         const getUser=db.prepare(`
-            SELECT * FROM USERS
-            WHERE username=?
+            SELECT * FROM users
+            WHERE university_id=?
         `)  
-        const user = getUser.get(username)
+        const user = getUser.get(id);//gets the entire row and is saved in user...
         console.log(user);
 
         //Guard to check if user in db
@@ -27,8 +27,8 @@ router.post('/login',(req,res)=>{
                     return res.status(404).send({"message":'User Not Found!'});}
         console.log('User is present in db')
 
-        //Guard to check if user has correct passwd
-        const passwordIsValid=bcrypt.compareSync(password,user.PASSWORD);
+        //Guard to check if user's db stored password has correct passwd
+        const passwordIsValid=bcrypt.compareSync(password,user.password);
         
         if(!passwordIsValid){
             console.log('Invalid password! Message sent to user');
@@ -50,9 +50,9 @@ router.post('/login',(req,res)=>{
 
 
 router.post('/register',(req,res)=>{
-    let registerBody=req.body;
-    console.log(`${registerBody.username} is the username and the password is ${registerBody.password}`);
-    const hashedPassword=bcrypt.hashSync(registerBody.password,8);
+    const {university_id,username,password}=req.body;
+    console.log(`${university_id} is the id with ${username} as the username and the password is ${password}`);
+    const hashedPassword=bcrypt.hashSync(password,8);
     console.log(`${hashedPassword} is the hashed password`);
     
     //save user and hashedPassword to db
@@ -60,22 +60,25 @@ router.post('/register',(req,res)=>{
         //db.prepare us to inject values into the sql query
         const insertUser=db.prepare(`
             INSERT INTO USERS(
+                university_id,
                 username,
-                password
+                password,
+                points,
+                profile_image
             )
-            VALUES(?,?)
+            VALUES(?,?,?,?,?)
             `)
-        const result=insertUser.run(registerBody.username,hashedPassword);
+        const result=insertUser.run(university_id,username,hashedPassword,0);
         console.log('User Inserted into database');
 
         //create a default todo in their lists
-        const defaultToDo=`Hello :) Add your todos here`
-        const insertToDo=db.prepare(`
-                INSERT INTO todos(user_id,task)
-                VALUES(?,?)
-            `)
-        insertToDo.run(result.lastInsertRowid,defaultToDo);
-        console.log('Default Insertions completed!');
+        // const defaultToDo=`Hello :) Add your todos here`
+        // const insertToDo=db.prepare(`
+        //         INSERT INTO todos(user_id,task)
+        //         VALUES(?,?)
+        //     `)
+        // insertToDo.run(result.lastInsertRowid,defaultToDo);
+        // console.log('Default Insertions completed!');
 
         //create a token to modify only their todos...
         //authentication of users for specified actions
@@ -87,6 +90,7 @@ router.post('/register',(req,res)=>{
 
 
     } catch(err){
+        console.log('Error registering user into database! Possibly user is already registered');
         console.log(err.message);
         res.sendStatus(503);
     }
@@ -94,7 +98,9 @@ router.post('/register',(req,res)=>{
 });
 
 router.post('/logout',(req,res)=>{
-    //the JWT tokens should be deleted
-    //the 
+    //the JWT tokens are deleted on the system
+
+    //similarly the tokens should be deleted on hand
+
 })
 export default router;
