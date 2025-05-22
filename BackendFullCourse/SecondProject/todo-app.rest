@@ -20,35 +20,65 @@ Content-Type: application/json
     "password":"123123"
 }
 
-###New test case of user signed up
-POST  http://localhost:8081/auth/login
+
+//Events :
+
+###Get the events of the user- can't unless give the auth string in the header of this body
+GET  http://localhost:8081/events/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDc5MjA2NTYsImV4cCI6MTc0ODAwNzA1Nn0.1BmhW4vRgq7BEDxnDVAf0in2dWxakudtRK1qf_tOPmE
+
+
+
+###POST a new event
+POST  http://localhost:8081/events/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDc5MjA2NTYsImV4cCI6MTc0ODAwNzA1Nn0.1BmhW4vRgq7BEDxnDVAf0in2dWxakudtRK1qf_tOPmE
 Content-Type: application/json
 
 {
-    "username":"drizzgesh@gmail.com",
-    "password":"j318nmd1398eu"
+    "title": "New event",
+    "description": "Description of event1",
+    "date": "2023-09-15",
+    "fromTime": "14:30:00",
+    "ToTime": "16:30:00",
+    "eventVenue": "IN our heads",
+    "banner_image": null
 }
 
-//TODOs:
-
-###Get the todos of the user- can't unless give the auth string in the header of this body
-GET  http://localhost:8081/todos/
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
-
-
-
-###POSt the new data
-POST  http://localhost:8081/todos/
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
+###Register user to event
+POST  http://localhost:8081/events/user-event/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDc5MjA2NTYsImV4cCI6MTc0ODAwNzA1Nn0.1BmhW4vRgq7BEDxnDVAf0in2dWxakudtRK1qf_tOPmE
 Content-Type: application/json
 
 {
-    "task":"Finish Coding the projects"
+    "user_id":"f20220226",
+    "event_id":"3"
 }
+
+###Verify user to event
+PUT  http://localhost:8081/events/user-event/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDc5MjA2NTYsImV4cCI6MTc0ODAwNzA1Nn0.1BmhW4vRgq7BEDxnDVAf0in2dWxakudtRK1qf_tOPmE
+Content-Type: application/json
+
+{
+    "user_id":"f20220226",
+    "event_id":"2",
+    "isParticipated":1
+}
+
+###Get All registered users for event
+
+GET  http://localhost:8081/events/user-event?usersForEvents
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDc5MjA2NTYsImV4cCI6MTc0ODAwNzA1Nn0.1BmhW4vRgq7BEDxnDVAf0in2dWxakudtRK1qf_tOPmE
+
+//MOD ONLY:
+###Get All registered events for user
+GET  http://localhost:8081/events/user-event?eventsForUser
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDc5MjA2NTYsImV4cCI6MTc0ODAwNzA1Nn0.1BmhW4vRgq7BEDxnDVAf0in2dWxakudtRK1qf_tOPmE
+
 
 ###UPDATE with put the new data
-PUT  http://localhost:8081/todos/4/taskUpdate
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
+PUT  http://localhost:8081/events/4/taskUpdate
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDc5MjA2NTYsImV4cCI6MTc0ODAwNzA1Nn0.1BmhW4vRgq7BEDxnDVAf0in2dWxakudtRK1qf_tOPmE
 Content-Type: application/json
 
 {
@@ -58,7 +88,7 @@ Content-Type: application/json
 
 
 ###Update the button with done // the rest of the params added extra in the request payload is ignored by the backend
-PUT  http://localhost:8081/todos/6
+PUT  http://localhost:8081/events/6
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
 Content-Type: application/json
 
@@ -69,7 +99,7 @@ Content-Type: application/json
 
 
 ###Delete the task
-DELETE  http://localhost:8081/todos/2
+DELETE  http://localhost:8081/events/2
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ3NzcxMTA2LCJleHAiOjE3NDc4NjgzMDZ9.ec9sxYk5W8UH8iB-KlcD0FsqhEBtCH2_dTI_34bB-rk
 
 

@@ -3,7 +3,7 @@ import cors from 'cors';
 import path,{dirname} from 'path';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/authRoutes.js'
-import todoRoutes from './routes/todoRoutes.js'
+import eventRoutes from './routes/eventRoutes.js'
 import authMiddleware from './middleware/authMiddleware.js'
 
 const PORT= process.env.PORT || 8081;
@@ -32,7 +32,7 @@ app.use(express.json());
 app.use('/auth',authRoutes);
 //we need to add middleware here that authenticates the user to access this
 //app.use('/todos',authMiddlware)// the below line is equivalent
-app.use('/todos',authMiddleware);
+app.use('/events',authMiddleware,eventRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Server is ready on PORT: ${PORT}`)

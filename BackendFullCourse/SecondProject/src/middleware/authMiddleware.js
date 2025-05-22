@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 
 //the middleware intercepts and read the otkens from the header sent form the frontend
 
+//authorizes each action with a jwt token
 function authMiddleWare(req,res,next){
     //get the token from the req
 
@@ -23,7 +24,11 @@ function authMiddleWare(req,res,next){
         //decoded is one of the core params of the verified user
         //we're adding params to the incoming request by adding this:
         console.log('User action verified with JWT tokens');
-        req.USERID=decoded.id
+        req.userid=decoded.id
+
+        //req.userid is now usable apart from the json recieved from the req.body
+        
+
         next()//over to the next middleware function
 
     })

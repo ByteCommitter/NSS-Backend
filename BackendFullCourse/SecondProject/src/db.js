@@ -13,7 +13,8 @@ db.exec(`
         username TEXT,
         password TEXT,
         points INTEGER,
-        profile_image TEXT DEFAULT NULL
+        profile_image TEXT DEFAULT NULL,
+        isAdmin default NULL
     )
     `)
 //Sign up shall take in name, user and password.
@@ -23,6 +24,8 @@ db.exec(`
 db.exec(`
     CREATE TABLE events (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT,
+        description TEXT,
         date DATE,
         fromTime Time,
         ToTime Time,
@@ -42,6 +45,19 @@ db.exec(`CREATE TABLE user_event (
         )
     `);
 
+
+//create Table notifications:
+db.exec(`
+        CREATE TABLE notifications(
+        id TEXT,
+        title TEXT,
+        message TEXT,
+        isRead BOOLEAN DEFAULT 0,
+        PRIMARY KEY (id)
+        )
+    `);
+
+//Notifications are implemented via web sockets right?
 
 export default db;
 

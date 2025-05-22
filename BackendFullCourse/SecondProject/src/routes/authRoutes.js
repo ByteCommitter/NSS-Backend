@@ -90,8 +90,9 @@ router.post('/register',(req,res)=>{
 
 
     } catch(err){
-        console.log('Error registering user into database! Possibly user is already registered');
         console.log(err.message);
+        console.log('Error registering user into database! Possibly user is already registered');
+        
         res.sendStatus(503);
     }
     
