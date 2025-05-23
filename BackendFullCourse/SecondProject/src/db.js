@@ -14,7 +14,7 @@ db.exec(`
         password TEXT,
         points INTEGER,
         profile_image TEXT DEFAULT NULL,
-        isAdmin default NULL
+        isAdmin BOOLEAN DEFAULT 0
     )
     `)
 //Sign up shall take in name, user and password.

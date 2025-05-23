@@ -44,15 +44,16 @@ router.post('/',(req,res)=>{
 router.post('/user-event',(req,res)=>{
     //user_event table should be updated
     const {user_id,event_id}=req.body;
-    console.log(`${req.userid} is the user ID of the user`);
+    console.log(`${req.userid} is the user ID of the user ${user_id} is the one rcvd on the API call`);
+    console.log(`${event_id} is the event_id received`);
     //TODO fix this issue
-    // if(req.userid==user_id){
-    //     console.log('Registering for event...');
-    // }
-    // else{
-    //     console.log('Something went wrong');
-    //     return ;
-    // }
+    if(req.userid==user_id){
+        console.log('Registering for event...');
+    }
+    else{
+        console.log('Something went wrong');
+        //return ;
+    }
 
     try{
         const registerUser=db.prepare(`
@@ -65,6 +66,7 @@ router.post('/user-event',(req,res)=>{
     }catch(err){
         console.log(err);
         console.log("Unable to register user to event");
+        res.json({"message":"User was not registered. Possibly already registered to event"});
     }
     
 })
