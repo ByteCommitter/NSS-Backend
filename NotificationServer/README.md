@@ -16,6 +16,9 @@ Work flow to implement the notification microservice:
 Create a new Node.js project for notification server	✅
 2️⃣	Add basic Socket.IO support and user tracking	✅
 3️⃣	Add POST endpoint to emit messages to users	✅
+
+The post in the frontend should not only emit messages via the socket but should also be sent to the db by the backend.
+
 4️⃣	Test locally with multiple Flutter apps or Postman	🔄
 5️⃣	Deploy notification server on Render/Railway	🔄
 6️⃣	Set up a free Redis instance (Upstash etc.)	🔄

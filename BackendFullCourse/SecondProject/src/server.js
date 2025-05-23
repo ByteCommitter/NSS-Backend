@@ -33,6 +33,7 @@ app.use('/auth',authRoutes);
 //we need to add middleware here that authenticates the user to access this
 //app.use('/todos',authMiddlware)// the below line is equivalent
 app.use('/events',authMiddleware,eventRoutes);
+app.use('/maintenance',authMiddleware,eventRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Server is ready on PORT: ${PORT}`)

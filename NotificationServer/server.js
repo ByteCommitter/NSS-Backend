@@ -1,43 +1,59 @@
 import express from 'express';
 import cors from 'cors';
-import path,{dirname} from 'path';
-import { fileURLToPath } from 'url';
-// import authRoutes from './routes/authRoutes.js'
-// import eventRoutes from './routes/eventRoutes.js'
-// import authMiddleware from './middleware/authMiddleware.js'
+import http from 'http';
+import authMiddleWare  from './authMiddleware.js';
+import {Server as SocketIOServer} from 'socket.io'
 
-const PORT= process.env.PORT || 8081;
+
+const PORT= 8991;
 const app=express();
 
-const __filename=fileURLToPath(import.meta.url)
-const __dirname=dirname(__filename)
-//Middleware to tell express to serve all files from the public folder  as static assets
+//Socket.io needs specific functionality for it to be working on a underlying http server
+const server= http.createServer(app);
+const io=new SocketIOServer(server,{
+    cors:{
+        origin:'*',
+        methods:['GET','POST'],
+    }
+});
 
-app.use(express.static(path.join(__dirname,'../public')))
-//cross origin resource sharing - cors
+//set this up once, think of a case when an admin post mutltiple notifications
+io.on('connection',(socket)=>{
+        console.log('Connected');
+        socket.on('disconnect',()=>{
+            console.log('Client Disconnected');
+        })
+    })
+
 // allows me to test flutter on the web while having a localhost backend as well...
 app.use(cors({
   origin: '*', // During development you can use * but restrict this in production
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(express.json());
 
-//gives the website our HTML file
-// app.get('/',(req,res)=>{
-//     res.sendFile(path.join(__dirname,'public','index.html'));
-// });
+app.get('/',(req,res)=>{
+    console.log('Notification server is ready!');
+    res.send('Notification server is live');
+})
 
-//Routes
+app.post('/send',authMiddleWare,(req,res)=>{
+    const {id,title,message,time,isRead}=req.body;
+    console.log(`${message} is the message pushed`);
+    
+    io.emit('pushNotification',{
+        title,
+        message,
+        time,
+        isRead
+    })
+    res.status(200).send({"message":"Notification sent"});
 
-
-
-// app.use('/auth',authRoutes);
-// //we need to add middleware here that authenticates the user to access this
-// //app.use('/todos',authMiddlware)// the below line is equivalent
-// app.use('/events',authMiddleware,eventRoutes);
-// app.use('/maintenance',authMiddleware,eventRoutes);
-
-app.listen(PORT,()=>{
-    console.log(`Server is ready on PORT: ${PORT}`)
+    
 });
+
+server.listen(PORT,()=>{
+    console.log(`server is ready on PORT:${PORT}`);
+})

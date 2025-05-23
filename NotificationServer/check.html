@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.IO Notification Tester</title>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+  <h2>Socket.IO Notifications</h2>
+  <div id="notifications"></div>
+
+  <script>
+    const socket = io('http://localhost:8991'); // Or replace with your deployed server URL
+
+    socket.on('connect', () => {
+      console.log('Connected to Socket.IO server');
+    });
+
+    socket.on('pushNotification', (data) => {
+      const notifDiv = document.getElementById('notifications');
+      const notif = document.createElement('div');
+      notif.innerText = `🔔 ${data.title}: ${data.message}`;
+      notifDiv.appendChild(notif);
+    });
+  </script>
+</body>
+</html>
