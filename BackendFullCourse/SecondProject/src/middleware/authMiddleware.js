@@ -1,38 +1,33 @@
 import jwt from 'jsonwebtoken'
 
-//intercept it with out auth middleware to ensure that the token is for a valid and correct user
-
-//the middleware intercepts and read the otkens from the header sent form the frontend
-
-//authorizes each action with a jwt token
-function authMiddleWare(req,res,next){
-    //get the token from the req
-
-    const token=req.headers['authorization'];
-    //console.log(req.headers['authorization']);
-    if(!token){
+function authMiddleWare(req, res, next) {
+    const token = req.headers['authorization'];
+    
+    if (!token) {
         console.log('Token is not provided');
         return res.status(401).send({"message":"No token provided"});
     }
 
-    jwt.verify(token,process.env.JWT_SECRET,(err,decoded)=>{
-        if(err){
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
             console.log("Invalid or expired Tokens");
             return res.status(401).send({"message":"Invalid Token"});
         }
 
-        //decoded is one of the core params of the verified user
-        //we're adding params to the incoming request by adding this:
         console.log('User action verified with JWT tokens');
-        req.userid=decoded.id
-
-        //req.userid is now usable apart from the json recieved from the req.body
+        //console.log('Decoded token:', decoded);
         
-
-        next()//over to the next middleware function
-
-    })
-
+        if (!decoded.id) {
+            console.log('ERROR: No user ID in token. Token was generated incorrectly.');
+            return res.status(401).send({"message":"Invalid token format - missing user ID"});
+        }
+        
+        // Set the user ID for use in routes
+        req.userid = decoded.id;
+        console.log(`User ID from token: ${req.userid}`);
+        
+        next();
+    });
 }
 
 export default authMiddleWare;

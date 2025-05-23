@@ -37,7 +37,14 @@ router.post('/login',(req,res)=>{
 
         console.log('User entered valid password')
         //user is authenticated, we can move in...
-        const token=jwt.sign({id:user.ID},process.env.JWT_SECRET,{expiresIn:'24h'})
+        const token=jwt.sign(
+            { 
+              id: id,  // Add the user ID to the token
+              iat: Math.floor(Date.now() / 1000)
+            }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '24h' }
+          );
         
         res.json({token})
 

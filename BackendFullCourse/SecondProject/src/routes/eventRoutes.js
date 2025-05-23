@@ -5,7 +5,6 @@ const router=express.Router();
 
 //Dynamic query params in use:
 
-
 // Th middleware makes sure the todos are authenticated. 
 //The middleware deals with the req.body as we've seen earlier, so no need to do that
 
@@ -61,17 +60,19 @@ router.post('/user-event',(req,res)=>{
             VALUES(?,?) 
             `)
         registerUser.run(user_id,event_id);
+        res.json({"message":"User successfully registered"});
+        console.log("User successfully registered to event");
     }catch(err){
         console.log(err);
         console.log("Unable to register user to event");
     }
-    res.json({"message":"User successfully registered"});
-    console.log("User successfully registered to event");
+    
 })
 
 
 //VERIFY EVENT - BY MOD ONLY for users
 router.put('/user-event',(req,res)=>{
+    
     //user_event table should be updated
     const {user_id,event_id,isParticipated}=req.body;
 
@@ -83,21 +84,94 @@ router.put('/user-event',(req,res)=>{
     //     return ;
     // }
 
+    //first check if user is registered to event then update it
+    
     try{
         const registerUser=db.prepare(`
-            INSERT INTO user_event(user_id,event_id,isParticipated)
-            VALUES(?,?,?)
+            UPDATE user_event SET isParticipated = ? where
+            user_id=? and event_id=?
             `)
         //isParticipated can be false also, test for this case
-        registerUser.run(user_id,event_id,isParticipated);
+        registerUser.run(isParticipated,user_id,event_id);
+        res.json({"message":"User successfully verified"});
+        console.log("User has been verified for the event");
+
     }catch(err){
         console.log(err);
         console.log("Unable to verify user to event");
     }
-    res.json({"message":"User successfully verified"});
-    console.log("User has been verified for the event");
 })
 
+//GET ALL REGISTERED USERS FOR EVENT and ALL eventsForUSER 
+router.get('/user-event',(req,res)=>{
+    //user_event table should be updated
+    const queryType = req.query.query; // Get the query type from URL params
+    
+    if (queryType === "usersForEvents"){
+        const event_id = req.query.event_id; // Get event_id from query params
+        console.log(`${event_id} is the ID received and the ${queryType} is the specific query in use`);
+    
+        //guard to assert MOD from user
+        console.log("Allowing Admin to access data...")
+        console.log("Getting all the users registered to event");
+        try{
+            //user is authenticated by middleware to access this data
+            const eventData = db.prepare(
+                `SELECT user_id FROM user_event
+                WHERE event_id=?
+                `
+            )
+            const result = eventData.all(event_id); // Use all() to get multiple rows
+            console.log(JSON.stringify(result));
+            res.json({result});
+        }catch(err){
+            console.log(err);
+            console.log("Unable to get event data of user");
+        }
+        console.log("Sent data to admin regarding registered users");
+    }
+    else if(queryType === "eventsForUser"){
+        const user_id = req.query.user_id; // Get user_id from query params
+        console.log(`${user_id} is the ID received and the ${queryType} is the specific query in use`);
+        
+        console.log("Getting data for all events participated by user")
+        try{
+            //user is authenticated by middleware to access this data
+            const eventData = db.prepare(
+                `SELECT event_id FROM user_event
+                WHERE user_id=?
+                `
+            )
+            const result = eventData.all(user_id); // Use all() to get multiple rows
+            console.log(JSON.stringify(result));
+            res.json({result});
+        }catch(err){
+            console.log(err);
+            console.log("Unable to get event data of user");
+        }
+        console.log("Sent data - registered events by user")
+    }else if(queryType === "eventsForUserParticipated"){
+        const user_id = req.query.user_id; // Get user_id from query params
+        console.log(`${user_id} is the ID received and the ${queryType} is the specific query in use`);
+    
+        console.log("Getting data for all events participated by user")
+        try{
+            //user is authenticated by middleware to access this data
+            const eventData = db.prepare(
+                `SELECT event_id FROM user_event
+                WHERE user_id=? and isParticipated = 1
+                `
+            )
+            const result = eventData.all(user_id); // Use all() to get multiple rows
+            console.log(JSON.stringify(result));
+            res.json({result});
+        }catch(err){
+            console.log(err);
+            console.log("Unable to get event data of user");
+        }
+        console.log("Sent participated events to user");
+    }
+})
 
 //UPDATE EVENT - MOD ONLY
 
@@ -161,7 +235,5 @@ router.delete('/:id',(req,res)=>{
     res.json({"Message":`Task ${id} is deleted from database`});
 
 });
-
-
 
 export default router;
