@@ -11,7 +11,7 @@ const app=express();
 
 // Connect to the already running Redis instance
 const redis = new Redis({
-  port: 6379,  // Fixed port number (was 6397)
+  port: 6379,  
   host: '127.0.0.1',
   retryStrategy: (times) => {
     const delay = Math.min(times * 50, 2000);
