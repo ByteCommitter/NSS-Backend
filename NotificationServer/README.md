@@ -26,7 +26,8 @@ The post in the frontend should not only emit messages via the socket but should
 8️⃣	Add Redis subscriber in notification server	🔄
 9️⃣	Test full flow with pub/sub	🔄
 
-
+Including redis the flow would be:
+Main backend → Redis publish → Notification server → Socket.IO emit → Flutter clients
 
 graph TD
     A[Flutter App] -->|REST API| B[Main Backend]
