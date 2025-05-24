@@ -1,7 +1,8 @@
 {
-  "name": "notificationserver",
+  "name": "notification-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "main": "server.js",
   "scripts": {
     "dev": "node --watch --env-file=.env  ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,9 +13,8 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1"
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "socket.io": "^4.7.2"
   }
 }
