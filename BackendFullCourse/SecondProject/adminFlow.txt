@@ -1,0 +1,34 @@
+So, first the admin is recognised and the db is changed via
+the maintenance apis change the user to an admin
+
+now the user logins, who is the admin
+
+const token = jwt.sign(
+  { userId: user._id, isAdmin: user.isAdmin },  // <-- important: isAdmin included here
+  process.env.JWT_SECRET,
+  { expiresIn: "1d" }
+);
+
+the frontend recognizes the user as an admin
+ using a boolean like isAdmin, after checking the payload
+
+everytime the admin reaches the backend, it's guarded and protected
+
+
+User Signup/Creation (isAdmin stored in DB) 
+       ↓
+User Login → Backend verifies credentials, generates JWT including isAdmin
+       ↓
+Frontend receives JWT (with isAdmin)
+       ↓
+Flutter app shows/hides admin page based on isAdmin
+       ↓
+User accesses admin page → API calls include JWT in header
+       ↓
+Backend middleware verifies JWT & checks isAdmin
+       ↓
+If isAdmin = true → Access granted
+Else → Access denied (403 Forbidden)
+
+
+

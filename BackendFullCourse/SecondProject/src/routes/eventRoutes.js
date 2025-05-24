@@ -12,7 +12,7 @@ const router=express.Router();
 
 //This would be a high frequency trigger
 router.get('/',(req,res)=>{
-    console.log(req);
+    //console.log(req);
     //gets all existing ids
     //verify token and get all the todos
     const getEvents= db.prepare(`

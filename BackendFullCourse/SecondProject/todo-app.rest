@@ -25,8 +25,7 @@ Content-Type: application/json
 
 ###Get the events of the user- can't unless give the auth string in the header of this body
 GET  http://localhost:8081/events/
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlhdCI6MTc0Nzk5NzU0MSwiZXhwIjoxNzQ4MDgzOTQxfQ.wNANZRwPpVROyaCWPyoDWeHyBeILNX9sHWgYrAz7SnY
-
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ4MTIzNzk4LCJleHAiOjE3NDgyMjA5OTh9.5M_YjNGlx_o0eQcwQ9rpxx2CNaH2nh0xpnyKN-ac0cM
 
 
 ###POST a new event

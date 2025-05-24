@@ -49,11 +49,10 @@ db.exec(`CREATE TABLE user_event (
 //create Table notifications:
 db.exec(`
         CREATE TABLE notifications(
-        id TEXT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         message TEXT,
-        isRead BOOLEAN DEFAULT 0,
-        PRIMARY KEY (id)
+        isRead BOOLEAN DEFAULT 0
         )
     `);
 
