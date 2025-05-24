@@ -1,13 +1,14 @@
 GET http://localhost:8991/
 
+
 ###POST to register a user
 POST http://localhost:8991/send
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlhdCI6MTc0Nzk5NzU0MSwiZXhwIjoxNzQ4MDgzOTQxfQ.wNANZRwPpVROyaCWPyoDWeHyBeILNX9sHWgYrAz7SnY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQ4MDg0MDM0LCJleHAiOjE3NDgxODEyMzR9.SvuZaBEdfagR1ChNSbW6nxSBGgaAcFhbnS9u64CbpRc
 
 {
-  "title": "hi this is the latest update",
-  "message": "Your request has been approved.",
+  "title": "Notification",
+  "message": "Notifs changed into updates.",
   "time": "2025-05-24T15:00:00Z",
   "isRead": false
 }

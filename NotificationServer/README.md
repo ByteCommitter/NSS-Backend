@@ -35,3 +35,18 @@ graph TD
     B -->|Redis Publish| C[Redis]
     C -->|Redis Subscribe| D
     D -->|Emit to App| A
+
+
+Updated flow of notifications:
+[Flutter Admin App] --> [Backend API Server]
+                             |
+                             +--> DB (Docker)
+                             |
+                             +--> Redis PUB --> (channel: notifications)
+                                        |
+                     +------------------+------------------+
+                     |                                     |
+          [Notification Server]                [FCM Sender Service]
+               (Socket.io)                            (firebase-admin)
+                     |                                     |
+               Real-time users                      Push to offline users
