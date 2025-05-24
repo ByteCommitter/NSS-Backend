@@ -6,7 +6,7 @@ Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlhdCI6MTc0Nzk5NzU0MSwiZXhwIjoxNzQ4MDgzOTQxfQ.wNANZRwPpVROyaCWPyoDWeHyBeILNX9sHWgYrAz7SnY
 
 {
-  "title": "New Update",
+  "title": "hi this is the latest update",
   "message": "Your request has been approved.",
   "time": "2025-05-24T15:00:00Z",
   "isRead": false
