@@ -5,8 +5,10 @@ import { fileURLToPath } from 'url';
 import authRoutes from './routes/authRoutes.js'
 import eventRoutes from './routes/eventRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
-import authMiddleware from './middleware/authMiddleware.js'
+import maintenanceRoutes from './routes/maintenanceRoutes.js'
 import notificationRoutes from './routes/notificationRoutes.js'
+import auth from './middleware/authMiddleware.js'
+
 const PORT= process.env.PORT || 8081;
 const app=express();
 
@@ -29,14 +31,16 @@ app.use(express.json());
 //     res.sendFile(path.join(__dirname,'public','index.html'));
 // });
 
+const {authMiddleWare,verifyAdmin}=auth;
+
 //Routes
 app.use('/auth',authRoutes);
 //we need to add middleware here that authenticates the user to access this
 //app.use('/todos',authMiddlware)// the below line is equivalent
-app.use('/events',authMiddleware,eventRoutes);
-app.use('/notifications',authMiddleware,notificationRoutes);
-app.use('/admin',authMiddleware,adminRoutes);
-app.use('/maintenance',authMiddleware,eventRoutes);
+app.use('/events',authMiddleWare,eventRoutes);
+app.use('/notifications',authMiddleWare,verifyAdmin,notificationRoutes);
+app.use('/admin',authMiddleWare,verifyAdmin,adminRoutes);
+app.use('/maintenance',authMiddleWare,verifyAdmin,maintenanceRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Server is ready on PORT: ${PORT}`)

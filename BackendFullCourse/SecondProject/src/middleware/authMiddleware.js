@@ -23,11 +23,22 @@ function authMiddleWare(req, res, next) {
         }
         
         // Set the user ID for use in routes
+        req.user=decoded;
         req.userid = decoded.id;
+        
+        if(req.user.isAdmin) console.log(`${req.userid} is the admin`);
         console.log(`User ID from token: ${req.userid}`);
         
         next();
     });
 }
 
-export default authMiddleWare;
+function verifyAdmin(req,res,next){
+    if(!req.user||!req.user.isAdmin){
+        return res.status(403).send({"message":"Admin Access Only"});
+    }
+    next();
+}
+
+
+export default {authMiddleWare,verifyAdmin};

@@ -40,10 +40,10 @@ router.post('/login',(req,res)=>{
         const token=jwt.sign(
             { 
               id: id,  // Add the user ID to the token
-              iat: Math.floor(Date.now() / 1000)
+              isAdmin:user.isAdmin  // can't use this to verify for req.user.isAdmin => admin
             }, 
             process.env.JWT_SECRET, 
-            { expiresIn: '24h' }
+            { expiresIn: '50h' }
           );
         
         res.json({token})

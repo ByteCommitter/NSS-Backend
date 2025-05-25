@@ -11,6 +11,7 @@ const router=express.Router();
 //GET
 
 //This would be a high frequency trigger
+//ADD redis here:
 router.get('/',(req,res)=>{
     //console.log(req);
     //gets all existing ids
@@ -23,9 +24,17 @@ router.get('/',(req,res)=>{
     res.json({events});//we're hereby sending all the events asked for
 });
 
+router.post('/eventById',(req,res)=>{
+    const {id}=req.body;
+    const eventDetails=db.prepare(`
+            SELECT * FROM events where id=?    
+        `)
+    const result=eventDetails.all(id);
+    res.status(200).json({result});
+})
 
-//POST - MOD ONLY
 
+//POST - MOD ONLY - create a new event
 router.post('/',(req,res)=>{
     //creates a new id
     const {title,description,date,fromTime,ToTime,eventVenue,banner_image}=req.body;
@@ -40,6 +49,7 @@ router.post('/',(req,res)=>{
     res.json({"message":"Event Added to Database"});
 });
 
+//High frequency api request
 //Register for event- possible all users:
 router.post('/user-event',(req,res)=>{
     //user_event table should be updated
@@ -104,11 +114,11 @@ router.put('/user-event',(req,res)=>{
     }
 })
 
+
 //GET ALL REGISTERED USERS FOR EVENT and ALL eventsForUSER 
 router.get('/user-event',(req,res)=>{
     //user_event table should be updated
     const queryType = req.query.query; // Get the query type from URL params
-    
     if (queryType === "usersForEvents"){
         const event_id = req.query.event_id; // Get event_id from query params
         console.log(`${event_id} is the ID received and the ${queryType} is the specific query in use`);
@@ -119,8 +129,10 @@ router.get('/user-event',(req,res)=>{
         try{
             //user is authenticated by middleware to access this data
             const eventData = db.prepare(
-                `SELECT user_id FROM user_event
-                WHERE event_id=?
+                `SELECT user_event.user_id, users.username, users.email 
+                FROM user_event
+                JOIN users ON user_event.user_id = users.id
+                WHERE user_event.event_id=?
                 `
             )
             const result = eventData.all(event_id); // Use all() to get multiple rows
@@ -135,17 +147,18 @@ router.get('/user-event',(req,res)=>{
     else if(queryType === "eventsForUser"){
         const user_id = req.query.user_id; // Get user_id from query params
         console.log(`${user_id} is the ID received and the ${queryType} is the specific query in use`);
-        
-        console.log("Getting data for all events participated by user")
         try{
             //user is authenticated by middleware to access this data
             const eventData = db.prepare(
-                `SELECT event_id FROM user_event
-                WHERE user_id=?
+                `SELECT user_event.event_id, events.title, events.description, events.date
+                FROM user_event
+                JOIN events ON user_event.event_id = events.id
+                WHERE user_event.user_id=?
                 `
             )
             const result = eventData.all(user_id); // Use all() to get multiple rows
-            console.log(JSON.stringify(result));
+        
+             console.log(JSON.stringify(result));
             res.json({result});
         }catch(err){
             console.log(err);
@@ -175,67 +188,58 @@ router.get('/user-event',(req,res)=>{
     }
 })
 
+
 //UPDATE EVENT - MOD ONLY
-
-router.put('/:id', (req, res) => {
-    const { completed } = req.body;
-    const { id } = req.params;
-    
-    try {
-        const updatedToDo = db.prepare(`
-            UPDATE todos SET completed = ? WHERE id = ?
-        `);
-        const result = updatedToDo.run(completed, id);
-        
-        if (result.changes === 0) {
-            return res.status(404).json({ error: 'Todo not found' });
-        }
-        
-        res.json({ id, completed });
-    } catch (error) {
-        console.error('Update failed:', error);
-        res.status(500).json({ error: 'Failed to update todo' });
-    }
-});
-
-//update a task name
-router.put('/:id/taskUpdate',(req,res)=>{
-    //we're updating the id of the task
-    const {task,completed}=req.body;
-    const {id}=req.params;
-    console.log(`Starting to update database on assigned Task ${id}`);
-    
-    const {page}=req.query;
-    console.log(page);
-    //We can get the information 
-    //from the three ways - body, params or as a query
-    const updatedToDo=db.prepare(`
-                                UPDATE todos SET task=?,completed=?  WHERE id = ?                      
-        `)
-    const result=updatedToDo.run(task,completed,id);
-
-    res.json({id:id,task,completed:1})
-     
-});
-
-router.delete('/:id',(req,res)=>{
-    //we have authorized the action from the user
-
-    //we have recieved the taskIndex from the taskList to be deleted
-    const {id}= req.params;// this id refers to the index no. of the todo to be deleted
-    console.log(`Deleting todos from user with data: ${req.body}`);
-    console.log(`Deleting task ${id}`);
+router.put('/', (req, res) => {
+    console.log("Updating event...");
     try{
-        const toDelete=db.prepare(`
-            DELETE FROM todos  WHERE id=? AND USER_ID=?
+        const {id,title,description,date,fromTime,ToTime,eventVenue,banner_image}=req.body;
+        const updateEvent=db.prepare(`
+            UPDATE TABLE events
+            SET title=?, description=?,
+            date=?,fromTime=?,ToTime=?,eventVenue=?,
+            banner_image=? WHERE id=?
             `)
-        toDelete.run(id,req.USERID);
+        updateEvent.run(title,description,date,fromTime,ToTime,eventVenue,banner_image,id);
+        res.json({"message":"Event Updated"});
     }catch(err){
         console.log(err);
-
+        console.log("Unable to soft Delete");
+        res.status(501).send("Server is unable to delete from database");
     }
-    res.json({"Message":`Task ${id} is deleted from database`});
-
 });
+
+//soft- delete: - This is what mods would do generally
+router.put('/softDelete',(req,res)=>{
+    //the point of this API is just to clear the events present in the home page.
+    try{
+        const {event_id}=req.body;
+        const deleteFromEvents=db.prepare(`
+            UPDATE TABLE events SET isSoftDelete = 1 where event_id=? 
+            `)
+        deleteFromEvents.run(event_id);
+    }catch(err){
+        console.log(err);
+        console.log("Unable to soft Delete");
+        res.status(501).send("Server is unable to delete from database");
+    }
+});
+
+//hard - delete from db: - maintenance API request
+router.delete('/hardDelete',(req,res)=>{
+    //This API clears all points for all users and the user must be warned of this- in this case the admin
+    const {event_id} = req.body;
+    const deleteFromEvents= db.prepare(`
+        DELETE * FROM table events where event_id=?
+        `)
+    const deleteFromUserEvents=db.prepare(`
+        DELETE * FROM user_events where event_id=? 
+        `)
+    deleteFromEvents.run(event_id);
+    deleteFromUserEvents.run(event_id);
+    res.json({});
+})
+
+
 
 export default router;

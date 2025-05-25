@@ -14,7 +14,9 @@ db.exec(`
         password TEXT,
         points INTEGER,
         profile_image TEXT DEFAULT NULL,
-        isAdmin BOOLEAN DEFAULT 0
+        isAdmin BOOLEAN DEFAULT 0,
+        isVolunteer BOOLEAN DEFAULT 0,
+        isWishVolunteer BOOLEAN DEFAULT 0
     )
     `)
 //Sign up shall take in name, user and password.
@@ -30,7 +32,8 @@ db.exec(`
         fromTime Time,
         ToTime Time,
         eventVenue TEXT,
-        banner_image TEXT DEFAULT NULL
+        banner_image TEXT DEFAULT NULL,
+        isSoftDelete BOOLEAN DEFAULT 0
     )
     `)
 
