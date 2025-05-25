@@ -112,6 +112,10 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlz
 GET  http://localhost:8081/events/
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjAsImlhdCI6MTc0ODIwNTkwNCwiZXhwIjoxNzQ4Mzg1OTA0fQ.iJFkIQRvi564P67aXyX6YwlTplaFIp_hoVihI83LkhE
 
+###NOTE: Remember to add firebase-service.json to .gitignore
+###and regenerate Firebase service account keys for security
+###CREATE .gitignore file with: src/FCM/firebase-service.json
+
 ###DEBUG: Check what's in user_event table (if you have a debug endpoint)
 GET  http://localhost:8081/debug/user-event
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjAsImlhdCI6MTc0ODIwNTkwNCwiZXhwIjoxNzQ4Mzg1OTA0fQ.iJFkIQRvi564P67aXyX6YwlTplaFIp_hoVihI83LkhE
