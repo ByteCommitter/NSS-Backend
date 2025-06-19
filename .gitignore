@@ -1,6 +1,5 @@
 
 # Create a clean .gitignore file
-@"
 # Environment files
 **/.env
 **/.env.*
@@ -34,4 +33,3 @@ build/
 # Existing entries (keep these if they were there before)
 /Backend/
 /Backupserver/
-"@ | Out-File -FilePath .gitignore -Encoding UTF8
