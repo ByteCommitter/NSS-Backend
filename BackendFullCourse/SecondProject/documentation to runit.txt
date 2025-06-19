@@ -1,0 +1,149 @@
+To run it locally:
+
+    docker compose down
+    docker compose build --no-cache
+    docker compose up
+
+To run a migration/ implement changes locally:
+    # Stop everything
+    docker-compose down
+
+    # Start just the database
+    docker-compose up db -d
+
+    # Wait a few seconds, then run migrations
+    docker-compose run --rm app npx prisma db push
+
+    # Now start everything
+    docker-compose up
+
+Changed the prismaClient.js file to import the prisma generated file properly
+(This is using the docker-compose.yaml and the DockerFile)
+
+How to do this on AWS?
+
+Use this to access remote amazon linux server:
+ssh -i C:\Users\Dell\Downloads\AmazonRSAkey.pem ec2-user@ec2-13-53-37-149.eu-north-1.compute.amazonaws.com
+
+
+Understanding AWS Free Tier and Docker Deployment
+AWS Free Tier Clarification
+750 hours is PER SERVICE TYPE, not per container:
+
+EC2: 750 hours of t2.micro instances (can run multiple containers on ONE instance)
+RDS: 750 hours of db.t3.micro/db.t4g.micro instances
+Total: You get BOTH 750 hours of EC2 AND 750 hours of RDS
+What Happens When You Run Docker Compose on EC2
+When you run docker compose up on an EC2 instance:
+
+Creates 2 containers on the SAME EC2 instance
+NOT 2 separate EC2 instances
+Uses only 1 EC2 instance worth of your 750 hours
+Recommended Approach for Free Tier Optimization
+Option 1: Both Containers on EC2 (Current Setup)
+Cost: Uses only EC2 free tier hours
+
+Option 2: Split Architecture (Recommended)
+Cost: Uses both EC2 AND RDS free tier hours (better resource allocation)
+
+Cloning Private GitHub Repo on EC2
+Yes, absolutely! Here's how:
+
+Method 1: SSH Key (Recommended)
+Method 2: Personal Access Token
+Method 3: GitHub CLI
+Your Current Setup on EC2
+Your current files will work perfectly on EC2:
+
+This creates 2 containers on 1 EC2 instance, using only your EC2 free tier hours.
+
+Free Tier Strategy
+Best approach for maximum free tier usage:
+
+Backend container → EC2 t2.micro (750 hours)
+Database → RDS db.t3.micro (separate 750 hours)
+Result: 1500 total hours of computing resources
+Would you like me to help you set up the split architecture to maximize your free tier benefits?
+
+Your Localhost:                 AWS EC2 Instance:
+┌─────────────────┐            ┌─────────────────┐
+│ Your Computer   │     →      │ EC2 t2.micro    │
+│ ├─ Backend      │            │ ├─ Backend      │
+│ └─ PostgreSQL   │            │ └─ PostgreSQL   │
+└─────────────────┘            └─────────────────┘
+
+Deployment Commands on EC2
+Your exact same commands work on EC2:
+
+
+# SSH into your EC2 instance
+ssh -i your-key.pem ec2-user@your-ec2-ip
+
+# Clone your repo
+git clone your-private-repo
+cd your-project
+
+# Your existing commands (unchanged!)
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+
+# Your app runs on: http://your-ec2-ip:8081
+
+STEPS FOR AWS:
+docker compose down
+# Check what's running
+docker compose ps
+
+# Check logs to see the crash
+docker compose logs app
+
+# Start only the PostgreSQL container
+docker compose up db -d
+
+# Wait a few seconds for it to be ready
+sleep 5
+
+# Run the migration using the run command (creates a temporary container)
+docker compose run --rm app npx prisma db push
+
+# Now start all services
+docker compose up -d
+
+# Check if everything is working
+docker compose logs app
+
+
+
+Deployment was successful!
+Next: Deploy frontend
+
+
+PRODUCTION DEPLOYMENT:
+
+1. Create secure .env file with strong passwords
+2. Update CORS origins to your actual frontend domain
+3. Use restart policies for auto-recovery
+4. Monitor with: docker compose logs -f
+5. Backup database regularly
+
+Security Checklist:
+✅ Strong passwords in .env
+✅ JWT secret > 32 characters  
+✅ CORS restricted to your domain
+✅ No default passwords in production
+✅ HTTPS setup (when domain ready)
+
+Production URLs:
+- Backend: http://ec2-13-53-37-149.eu-north-1.compute.amazonaws.com:8081
+- Admin: university_id="admin", password="[from .env file]"
+
+
+Steps to change after commiting changes to git and git pulling from the repo...
+
+docker-compose down
+docker-compose up db
+
+docker-compose run --rm app npx prisma db push
+docker-compose up app
+

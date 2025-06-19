@@ -1,6 +1,9 @@
 # Firebase service account credentials
 src/FCM/firebase-service.json
 firebase-service.json
+**/firebase-service.json
+**/*firebase*.json
+FCM/*.json
 
 # Environment variables
 .env
@@ -29,3 +32,5 @@ coverage/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+/src/generated/prisma

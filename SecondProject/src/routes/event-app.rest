@@ -1,0 +1,165 @@
+###GET HOMe page /
+GET http://localhost:8081/
+
+###POST to register a user
+POST  http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+    "university_id":"f20220226",
+    "username":"Guru",
+    "password":"123123"
+}
+### Other user register
+POST  http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+    "university_id":"f20220000",
+    "username":"Guru",
+    "password":"123123"
+}
+###POST to login into the admin
+POST  http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+    "id":"admin",
+    "password":"adminhere"
+}
+
+
+//Events :
+
+###Get the events of the user- can't unless give the auth string in the header of this body
+GET  http://localhost:8081/events/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjEsImlhdCI6MTc0ODI3ODczMywiZXhwIjoxNzQ4NDU4NzMzfQ.8ZaSzvKvJ6NlU3EuWOqxc5NZGJUhgpwtLO8gqG_ABsM
+###Get event details per event
+POST   http://localhost:8081/events/eventById
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjEsImlhdCI6MTc0ODI3ODczMywiZXhwIjoxNzQ4NDU4NzMzfQ.8ZaSzvKvJ6NlU3EuWOqxc5NZGJUhgpwtLO8gqG_ABsM
+Content-Type: application/json
+
+{
+    "id":"5"
+}
+
+###POST a new event
+POST  http://localhost:8081/events/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluIiwiaXNBZG1pbiI6MSwiaWF0IjoxNzQ4NDY5NjgwLCJleHAiOjE3NDg2NDk2ODB9.g1naeNd5Z-AO_GmunMzkEaRom_a6lB7iFUeUo3Xbivc
+Content-Type: application/json
+
+{
+    "title": "That's crazy!",
+    "description": "Amazing PLacement",
+    "date": "2023-09-15",
+    "fromTime": "14:30:00",
+    "toTime": "16:30:00",
+    "eventVenue": "In Real Life",
+    "banner_image": null,
+    "points":50
+}
+
+###Register user to event
+POST  http://localhost:8081/events/user-event/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluIiwiaXNBZG1pbiI6MSwiaWF0IjoxNzQ4NDY5NjgwLCJleHAiOjE3NDg2NDk2ODB9.g1naeNd5Z-AO_GmunMzkEaRom_a6lB7iFUeUo3Xbivc
+Content-Type: application/json
+
+{
+    "user_id":"f20220000",
+    "event_id":"3"
+}
+
+###Verify user to event - MOD ONLY
+PUT  http://localhost:8081/events/user-event/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluIiwiaXNBZG1pbiI6MSwiaWF0IjoxNzQ4NDY5NjgwLCJleHAiOjE3NDg2NDk2ODB9.g1naeNd5Z-AO_GmunMzkEaRom_a6lB7iFUeUo3Xbivc
+Content-Type: application/json
+
+{
+    "user_id":"f20220226",
+    "event_id":"1",
+    "isParticipated":1
+}
+
+###Get All registered users for event
+
+//DEBUG: Check if user_event table has data
+GET  http://localhost:8081/events/user-event?query=usersForEvents&event_id=4
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQ4Mzc4NzUxLCJleHAiOjE3NDg0NzU5NTF9.bt0e1tJBG3GkzLBMXw4xi16TrALceVo4I9i2eRgBWgU
+
+###DEBUG: Fresh registration attempt
+POST  http://localhost:8081/events/user-event/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjAsImlhdCI6MTc0ODIwNTkwNCwiZXhwIjoxNzQ4Mzg1OTA0fQ.iJFkIQRvi564P67aXyX6YwlTplaFIp_hoVihI83LkhE
+Content-Type: application/json
+
+{
+    "user_id":"f20220000",
+    "event_id":"4"
+}
+
+###DEBUG: Check immediately after registration
+GET  http://localhost:8081/events/user-event?query=eventsForUser&user_id=f20220000
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjAsImlhdCI6MTc0ODIwNTkwNCwiZXhwIjoxNzQ4Mzg1OTA0fQ.iJFkIQRvi564P67aXyX6YwlTplaFIp_hoVihI83LkhE
+
+###Get All registered events for user
+GET  http://localhost:8081/events/user-event?query=eventsForUser&user_id=f20220226
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjAsImlhdCI6MTc0ODIwNTkwNCwiZXhwIjoxNzQ4Mzg1OTA0fQ.iJFkIQRvi564P67aXyX6YwlTplaFIp_hoVihI83LkhE
+
+###DEBUG: Try user_id with quotes
+GET  http://localhost:8081/events/user-event?query=eventsForUser&user_id="f20220226"
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjAsImlhdCI6MTc0ODIwNTkwNCwiZXhwIjoxNzQ4Mzg1OTA0fQ.iJFkIQRvi564P67aXyX6YwlTplaFIp_hoVihI83LkhE
+
+###DEBUG: Test if events exist at all
+GET  http://localhost:8081/events/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjAsImlhdCI6MTc0ODIwNTkwNCwiZXhwIjoxNzQ4Mzg1OTA0fQ.iJFkIQRvi564P67aXyX6YwlTplaFIp_hoVihI83LkhE
+
+
+###Get All registered events for user in which he Participated
+GET  http://localhost:8081/events/user-event?query=eventsForUserParticipated&user_id=f20220226
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlhdCI6MTc0Nzk0MDM0MywiZXhwIjoxNzQ4MDI2NzQzfQ.kRWKjDorMf2f9_NGZ21FOBctFN0Sj1lQ9aUoEPNRxew
+
+
+
+
+
+
+
+###Update our event and edit other details...
+PUT http://localhost:8081/events
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluIiwiaXNBZG1pbiI6MSwiaWF0IjoxNzQ4NDk2OTc5LCJleHAiOjE3NDg2NzY5Nzl9.Lw7SrHjlVTYrN5Z_up4hmOFTdjSCJmiEnR_XGhfAiOg
+Content-Type: application/json
+
+{
+    "id": 4,
+    "title": "Updated Event Title",
+    "description": "This is an updated description for the event",
+    "date": "2024-05-15",
+    "fromTime": "10:00",
+    "ToTime": "12:00",
+    "eventVenue": "Conference Room A",
+    "banner_image": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "points":1000
+}
+
+
+
+
+
+
+###Softdelete  the event from the db
+PUT  http://localhost:8081/events/softDelete
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjEsImlhdCI6MTc0ODI4OTEyNywiZXhwIjoxNzQ4NDY5MTI3fQ.D-YUlCeNv1y3bsPG3A6qs2f1lLXxx-7sFmrE_jVKsZM
+Content-Type: application/json
+
+{
+    "id": 3
+}
+
+###Delete the task
+DELETE  http://localhost:8081/events/hardDelete
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjEsImlhdCI6MTc0ODI4OTEyNywiZXhwIjoxNzQ4NDY5MTI3fQ.D-YUlCeNv1y3bsPG3A6qs2f1lLXxx-7sFmrE_jVKsZM
+Content-Type: application/json
+
+{
+    "id": 1
+}
+

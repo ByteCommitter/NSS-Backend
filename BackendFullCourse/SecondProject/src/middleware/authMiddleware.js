@@ -14,8 +14,7 @@ function authMiddleWare(req, res, next) {
             return res.status(401).send({"message":"Invalid Token"});
         }
 
-        console.log('User action verified with JWT tokens');
-        //console.log('Decoded token:', decoded);
+        //console.log('User action verified with JWT tokens');
         
         if (!decoded.id) {
             console.log('ERROR: No user ID in token. Token was generated incorrectly.');
@@ -26,8 +25,8 @@ function authMiddleWare(req, res, next) {
         req.user=decoded;
         req.userid = decoded.id;
         
-        if(req.user.isAdmin) console.log(`${req.userid} is the admin`);
-        console.log(`User ID from token: ${req.userid}`);
+        //if(req.user.isAdmin) console.log(`${req.userid} is the admin`);
+        //console.log(`User ID from token: ${req.userid}`);
         
         next();
     });

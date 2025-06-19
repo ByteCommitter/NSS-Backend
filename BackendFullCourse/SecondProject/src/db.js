@@ -1,7 +1,3 @@
-import {DatabaseSync} from 'node:sqlite'
-
-//we're using an InMemory database, NOT FOR PRODUCTION
-const db= new DatabaseSync(':memory:')
 
 
 //Execute SQL statements from strings
@@ -33,7 +29,8 @@ db.exec(`
         ToTime Time,
         eventVenue TEXT,
         banner_image TEXT DEFAULT NULL,
-        isSoftDelete BOOLEAN DEFAULT 0
+        isSoftDelete BOOLEAN DEFAULT 0,
+        points INTEGER DEFAULT 50
     )
     `)
 
@@ -41,6 +38,7 @@ db.exec(`
 db.exec(`CREATE TABLE user_event (
             user_id TEXT,
             event_id INTEGER,
+            points INTEGER,
             isParticipated BOOLEAN DEFAULT 0,
             PRIMARY KEY (user_id, event_id),
             FOREIGN KEY (user_id) REFERENCES users(university_id),
@@ -54,14 +52,22 @@ db.exec(`
         CREATE TABLE notifications(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
+        time Time,
         message TEXT,
         isRead BOOLEAN DEFAULT 0
         )
     `);
 
+db.exec(`
+        CREATE TABLE badges(
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        user_id,
+        title TEXT
+        )
+    `);
 //Notifications are implemented via web sockets right?
 
-export default db;
+// export default db;
 
 
 /*To register for a user:

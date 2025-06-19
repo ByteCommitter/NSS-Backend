@@ -1,2 +1,27 @@
-#use the below:
-#CMD ["pm2-runtime", "ecosystem.config.js"]
+##This is just the instruction sheet to build the container
+#Use official node in docker
+FROM node:22-alpine
+
+#set the working directory
+WORKDIR /app
+
+#Copy the package .json files
+COPY package*.json .
+
+#install dependencies
+RUN npm install
+
+#copy rest of applications removing the node_modules from our directory
+#prevents rebuilding the app again and again, if we do the above first as it is cached
+COPY . .
+
+# Generate Prisma client inside the image
+RUN npx prisma generate
+
+#Expose the port to our container
+EXPOSE 8081
+
+#define the command to run the application
+CMD ["node","src/server.js"]
+
+

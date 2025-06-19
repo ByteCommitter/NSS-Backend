@@ -2,7 +2,7 @@ GET http://localhost:8991/
 
 
 ###POST to register a user
-POST http://localhost:8991/send
+POST https://notificationserver-production-6fc2.up.railway.app/send
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQ4MDg0MDM0LCJleHAiOjE3NDgxODEyMzR9.SvuZaBEdfagR1ChNSbW6nxSBGgaAcFhbnS9u64CbpRc
 

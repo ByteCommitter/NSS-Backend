@@ -1,0 +1,117 @@
+GET https://nssapp.duckdns.org/health
+
+###POST to register a user
+POST  https://nssapp.duckdns.org/auth/register
+Content-Type: application/json
+
+{
+    "university_id":"f20220226",
+    "username":"Guru",
+    "password":"123123"
+}
+### Other user register
+POST  https://nssapp.duckdns.org/auth/register
+Content-Type: application/json
+
+{
+    "university_id":"f20220000",
+    "username":"Guru",
+    "password":"123123"
+}
+###POST to login into the admin
+POST  https://nssapp.duckdns.org/auth/login
+Content-Type: application/json
+
+{
+    "id":"admin",
+    "password":"adminhere"
+}
+
+
+
+
+###
+GET http://localhost:8081/health
+
+###POST to register a user
+POST  http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+    "university_id":"f20220226",
+    "username":"Guru",
+    "password":"123123"
+}
+
+###POST to resend OTP
+POST  http://localhost:8081/auth/resendOTP
+Content-Type: application/json
+
+{
+    "university_id":"f20220226"
+}
+
+
+
+###POST to verify user's entry of OTP...
+POST  http://localhost:8081/auth/verifyUser
+Content-Type: application/json
+
+{
+    "university_id":"f20220226",
+    "otpValue": 330279
+}
+
+###POST in case we forget password
+POST  http://localhost:8081/auth/forgotPassword
+Content-Type: application/json
+
+{
+    "university_id":"f20220226"
+}
+
+###POST to login the user- before we reset the password
+POST  http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+    "id":"f20220226",
+    "password":"123123"
+}
+
+###POST to reset password
+POST  http://localhost:8081/auth/resetPassword
+Content-Type: application/json
+
+{
+    "university_id":"f20220226",
+    "otpValue":196195,
+    "password": "newPassword"
+}
+
+###POST to login the user- after we reset the password
+POST  http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+    "id":"f20220226",
+    "password":"newPassword"
+}
+
+### Other user register
+POST  http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+    "university_id":"f20220000",
+    "username":"Guru",
+    "password":"123123"
+}
+###POST to login into the admin
+POST  http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+    "id":"admin",
+    "password":"adminhere"
+}

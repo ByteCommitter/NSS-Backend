@@ -9,7 +9,7 @@
   <div id="notifications"></div>
 
   <script>
-    const socket = io('http://localhost:8991'); // Or replace with your deployed server URL
+    const socket = io('https://notificationserver-production-6fc2.up.railway.app'); // Or replace with your deployed server URL
 
     socket.on('connect', () => {
       console.log('Connected to Socket.IO server');

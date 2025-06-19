@@ -1,0 +1,25 @@
+#Use official node in docker
+FROM node:22-alpine
+
+#set the working directory
+WORKDIR /app
+
+#Copy the package .json files
+COPY package*.json .
+
+#install dependencies
+RUN npm install
+
+#copy rest of applications removing the node_modules from our directory
+#prevents rebuilding the app again and again, if we do the above first as it is cached
+COPY . .
+
+#Expose the port to our container
+EXPOSE 8991
+
+#SET all enviroments
+ENV PORT=8991
+
+
+#define the command to run the application
+CMD ["node","server.js"]

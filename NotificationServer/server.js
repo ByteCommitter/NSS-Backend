@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 import Redis from 'ioredis';
 import http from 'http';
 import authMiddleWare  from './authMiddleware.js';
@@ -9,15 +10,8 @@ import {Server as SocketIOServer} from 'socket.io'
 const PORT= 8991;
 const app=express();
 
-// Connect to the already running Redis instance
-const redis = new Redis({
-  port: 6379,  
-  host: '127.0.0.1',
-  retryStrategy: (times) => {
-    const delay = Math.min(times * 50, 2000);
-    return delay;
-  }
-});
+const redis = new Redis(process.env.REDIS_URL);
+
 
 redis.on('error', (err) => {
   console.error('Redis connection error:', err);
@@ -40,12 +34,26 @@ io.on('connection',(socket)=>{
         })
     })
 
-// allows me to test flutter on the web while having a localhost backend as well...
-app.use(cors({
-  origin: '*', // During development you can use * but restrict this in production
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 300, // adjust for campus network
+  standardHeaders: true
+});
+
+app.use(limiter);
+
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
+// allows me to have a frontend as the web as well...
+// app.use(cors({
+//   origin: '*', // During development you can use * but restrict this in production
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// }));
 
 app.use(express.json());
 
@@ -95,9 +103,12 @@ main();
 
 
 
-app.post('/send',authMiddleWare,(req,res)=>{
+app.post('/send',(req,res)=>{
     const {title,message,time,isRead}=req.body;
-    console.log(`${message} is the message pushed`);
+    
+    if (!title || !message) {
+        return res.status(400).json({error: "Missing required fields"});
+    }
     
     io.emit('pushNotification',{
         title,
@@ -113,3 +124,13 @@ app.post('/send',authMiddleWare,(req,res)=>{
 server.listen(PORT,()=>{
     console.log(`server is ready on PORT:${PORT}`);
 })
+
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  server.close(() => {
+    console.log('HTTP server closed');
+    redis.quit();
+    process.exit(0);
+  });
+});

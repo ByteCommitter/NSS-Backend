@@ -1,0 +1,48 @@
+###POST to login an admin
+POST  http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+    "id":"admin",
+    "password":"adminhere"
+}
+
+### Send notification through backend server (publishes to Redis)
+POST http://localhost:8081/notifications
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluIiwiaXNBZG1pbiI6MSwiaWF0IjoxNzQ4NTQzMTg1LCJleHAiOjE3NDg3MjMxODV9.Uo7Wou0iwLt719SvO7iSABVYAKTltj1pYCMi229oK_U
+Content-Type: application/json
+
+{
+  "id": "123",
+  "title": "God's Blessings",
+  "message": "May you get the placement you dream",
+  "time": "2023-05-25T10:31:00Z",
+  "isRead": false
+}
+
+###Get all the eventUpdates/ notifications from db
+GET http://localhost:8081/notifications
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluIiwiaXNBZG1pbiI6MSwiaWF0IjoxNzQ4NDMyMzE3LCJleHAiOjE3NDg2MTIzMTd9.Csf0Vc0cQ9FBgsGtzgb-k5DLxfgj4i8IqhtsXKyk-Eo
+
+### DELETE THE notifications from the db...
+DELETE http://localhost:8081/notifications
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOjEsImlhdCI6MTc0ODI3ODczMywiZXhwIjoxNzQ4NDU4NzMzfQ.8ZaSzvKvJ6NlU3EuWOqxc5NZGJUhgpwtLO8gqG_ABsM
+Content-Type: application/json
+
+{
+  "id":2
+}
+
+### Direct send to notification server endpoint (bypasses Redis)
+POST http://localhost:8991/send
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluIiwiaXNBZG1pbiI6MSwiaWF0IjoxNzQ4NTQ0MjY3LCJleHAiOjE3NDg3MjQyNjd9._BDfoBFuPpwp-Iuqt4jf-UBOlK00RCC2xneSbaWVjDw
+Content-Type: application/json
+
+{
+  "title": "Direct Test",
+  "message": "This notification bypasses Redis and goes directly to socket.io",
+  "time": "2023-05-25T10:35:00Z",
+  "isRead": false
+}
+
+
