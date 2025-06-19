@@ -1,0 +1,8 @@
+# Backend folders
+/Backend/
+/Backupserver/
+
+# Environment variables
+.env
+.env.local
+.env.production
