@@ -1,8 +1,0 @@
-we're using a custom email service for sending 2FA codes.
-it's Brevo.
-
-Here are the config details for the email service:
-SMTP server: smtp-relay.brevo.com
-Port: 587
-Login: 900771001@smtp-brevo.com
-Password: IbR1jnvHQzhJt0MS
