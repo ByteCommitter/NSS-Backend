@@ -175,7 +175,7 @@ First step would be to create different types of roles for the users=>student,vo
     };
 
 LLD Chat Storage and retrieval from Redis:
-Each chat session has the session metaData which is stored first, along with which there is a list or vector or dictionary(best case if not wrong would be a set). This would be a growing set structure.
+Each chat session has the session metaData which is stored first, along with which there is a list or vector or dictionary (best case if not wrong would be a set). This would be a growing set structure.
 
 we could go one step further create a key which has the meta data which has the student anonymous ID, the counselorId and then a random number which is prefixed by the chat sessionId creating a new string => chatsessionXXXX|YYYY.(yyy being the random nos. being generated). The meta data would also have a chatExpiresIn
 We could create another redis key with this string(name it as chatStringLists(not in the redis - but for our convenience)),and keep pushing to this list as and when new messages are added.
