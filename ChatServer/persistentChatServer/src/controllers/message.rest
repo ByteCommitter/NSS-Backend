@@ -1,0 +1,59 @@
+###POST signup
+POST http://localhost:5000/api/auth/signup
+Content-Type: application/json
+
+{
+    "fullName":"John Check",
+    "email": "test1@gmail.com",
+    "password":"123456"
+}
+
+###POST signup
+POST http://localhost:5000/api/auth/signup
+Content-Type: application/json
+
+{
+    "fullName":"Test 2",
+    "email": "test2@gmail.com",
+    "password":"123456"
+}
+
+
+###POST login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "test1@gmail.com",
+    "password":"123456"
+}
+
+
+###POST login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "test2@gmail.com",
+    "password":"123456"
+}
+
+###POST a message:
+POST http://localhost:5000/api/message/send/688eb2b41852d7d3c50e1130
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODhlYjJiNDE4NTJkN2QzYzUwZTExMzAiLCJpYXQiOjE3NTQyNTg2NjAsImV4cCI6MTc1NDg2MzQ2MH0.kIelTS5_ODTOL5w3iWH4mR5FvwA_1OWOEAJDsOGHG9o
+Content-Type: application/json
+
+{
+    "text": "Hi, test message2!"
+}
+
+
+
+###GET all messages:
+GET http://localhost:5000/api/message/688eb2c71852d7d3c50e1133
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODhhNzgwMmIxZjFjYWM0OWJjNzBkZTIiLCJpYXQiOjE3NTQyNTg1ODYsImV4cCI6MTc1NDg2MzM4Nn0.FjsaTw90EPktUDDrRZFOxslcTUF4bIb_UoCp9RFGuIw
+
+
+###GET all sers:
+GET http://localhost:5000/api/message/users
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODhlYjJiNDE4NTJkN2QzYzUwZTExMzAiLCJpYXQiOjE3NTQyNTg2NjAsImV4cCI6MTc1NDg2MzQ2MH0.kIelTS5_ODTOL5w3iWH4mR5FvwA_1OWOEAJDsOGHG9o

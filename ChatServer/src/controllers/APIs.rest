@@ -1,0 +1,116 @@
+###POST to login into the admin
+POST  http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+    "id":"f20220226",
+    "password":"123123"
+}
+
+###POST to login into the admin
+POST  http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+    "university_id":"f20231081",
+    "username":"satvik-18",
+    "password":"123123"
+}
+
+###POST to verify user's entry of OTP...
+POST  https://nssapp.duckdns.org/auth/verifyUser
+Content-Type: application/json
+
+{
+    "university_id":"f20220226",
+    "otpValue": 884793
+}
+
+###POST to login into the admin
+POST  http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+    "id":"admin",
+    "password":"adminhere"
+}
+
+
+###POST to create a session (ADMIN required)
+POST  http://localhost:8081/chat/createSession
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzU0NjU4Mjc1LCJleHAiOjE3NTQ4MzgyNzV9._zXKGHbFlH7rV6lZkkH_Evff-_PN7hOkS840QK5s3bQ
+Content-Type: application/json
+
+{
+    "roomName":"TestRoomAdmin-Test",
+    "participants": [
+                { "id": "1", "name": "Narayana" },
+                { "id": "2", "name": "Sri Sri Sri Guru" },
+                { "id": "f20220226", "name": "Guru" }
+                ]
+}
+
+
+###POST to login into the admin
+POST  http://localhost:8081/chat/createSession
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzU0NDA0MjE4LCJleHAiOjE3NTQ1ODQyMTh9.K-jXDNgG_QFc5bmWYW4pMatKNx4lwqAsD4yl37pQ8WQ
+Content-Type: application/json
+
+{
+    "roomName":"TestRoomAdmin",
+    "participants": [
+                { "id": "", "name": "Narayana" },
+                { "id": "2", "name": "Sri Sri Sri Guru" },
+                { "id": "f20220226", "name": "Guru" }
+                ]
+}
+
+###POST to login into the admin
+POST  http://localhost:8081/chat/check
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3NTQ1MjQxNTMsImV4cCI6MTc1NDcwNDE1M30.O3jN8WKq6pGtOQhHGaoDj0QveXD2Pl7mGwuBOegBDDg
+Content-Type: application/json
+
+{
+    "chatToken":""
+}
+
+###POST to login into the admin
+POST  http://localhost:8081/chat/check
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3NTQ1MjQxNTMsImV4cCI6MTc1NDcwNDE1M30.O3jN8WKq6pGtOQhHGaoDj0QveXD2Pl7mGwuBOegBDDg
+Content-Type: application/json
+
+{
+    "chatToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsIm5hbWUiOiJHdXJ1IiwiaWF0IjoxNzU0NjU4NjE0LCJleHAiOjE3NTQ2NjU4MTR9.V8z0g4Bl6eHkWAGXoFajZH-tuOGBIQjZvv1BrNJE3FQ"
+}
+
+
+###GET sessions as a user....
+GET http://localhost:5000/chat/message/sessions
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsIm5hbWUiOiJHdXJ1IiwiaWF0IjoxNzU0NjU4NjE0LCJleHAiOjE3NTQ2NjU4MTR9.V8z0g4Bl6eHkWAGXoFajZH-tuOGBIQjZvv1BrNJE3FQ
+
+###GET messages in session as a user....
+GET http://localhost:5000/chat/message/2c2c4e2c-7a7f-4981-8fae-370f3fada0bf
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsIm5hbWUiOiJHdXJ1IiwiaWF0IjoxNzU0NjU4NjE0LCJleHAiOjE3NTQ2NjU4MTR9.V8z0g4Bl6eHkWAGXoFajZH-tuOGBIQjZvv1BrNJE3FQ
+
+###POST a new message into a session:
+POST http://localhost:5000/chat/message/2c2c4e2c-7a7f-4981-8fae-370f3fada0bf
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsIm5hbWUiOiJHdXJ1IiwiaWF0IjoxNzU0NjU4NjE0LCJleHAiOjE3NTQ2NjU4MTR9.V8z0g4Bl6eHkWAGXoFajZH-tuOGBIQjZvv1BrNJE3FQ
+Content-Type: application/json
+
+{
+    "message":"Namah Shankarayah"
+}
+
+###DELETE the chat (needs Admin in Auth string)
+DELETE  http://localhost:8081/chat/deleteChat/TestRoomAdmin
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlhdCI6MTc1NDUwODMxNywiZXhwIjoxNzU3MTAwMzE3fQ.2cD9W2W3HsCE9xemJRYtwcysb1EP5b4ptfw3h969DLQ
+
+###POST to login into the admin
+POST  http://localhost:8081/chat/check
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsImlhdCI6MTc1NDUwODMxNywiZXhwIjoxNzU3MTAwMzE3fQ.2cD9W2W3HsCE9xemJRYtwcysb1EP5b4ptfw3h969DLQ
+Content-Type: application/json
+
+{
+    "chatToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyMDIyMDIyNiIsIm5hbWUiOiJHdXJ1IiwiaWF0IjoxNzU0NTc0OTc0LCJleHAiOjE3NTQ1ODIxNzR9.3FL2ALcDk6FgWcjr9ysKZCG0w7C6ORCxGMUJMjODpwk"
+}
+

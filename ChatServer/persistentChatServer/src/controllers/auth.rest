@@ -1,0 +1,18 @@
+###POST signup
+POST http://localhost:5000/api/auth/signup
+Content-Type: application/json
+
+{
+    "fullName":"John Check",
+    "email": "jhoncheck@gmail.com",
+    "password":"123456"
+}
+
+###POST login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "jhoncheck@gmail.com",
+    "password":"123456"
+}

@@ -9,6 +9,9 @@
 MainServer/SecondProject/.env
 MainServer/SecondProject/src/routes/2FA_Documentation.txt
 NotificationServer/.env
+ChatServer/.env
+ChatServer/persistentChatServer/.env
+
 
 # Dependencies
 node_modules/
@@ -33,3 +36,4 @@ build/
 # Existing entries (keep these if they were there before)
 /Backend/
 /Backupserver/
+/Basics

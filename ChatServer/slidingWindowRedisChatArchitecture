@@ -1,0 +1,31 @@
+We'll think about the 2 store architecture in the next phase of building the chat app.
+
+Original App JWT:
+    Issued by MainServer on user login.
+    Broad permissions, long expiry.
+
+Chat Session JWT:
+    Generated for every chat group or dm for each user...
+    The JWT is generated via a shared secret.
+    set default session lifeTime to 7 days for the JWT
+
+The redis chat storage management:
+    - The chatsession has a key value for the metadata, which stores the last time the message was entered into the chat session - crucial part of metadata, required to set the TTL
+    - The chat session has a messages List, where messages are pushed onto the List with content upto the N most recent messages to avoid eviction.
+
+    On each new message:
+        -// push message
+        redis.rpush("chat_12345:messages", JSON.stringify(msg));
+        // trim to keep only last N (protects against eviction)
+        redis.ltrim("chat_12345:messages", -N, -1);
+        // reset TTL on both keys to 7 days
+        redis.expire("chat_12345:metadata", 7*24*3600);
+        redis.expire("chat_12345:messages", 7*24*3600);
+
+
+All the above would work for dms
+
+But now how do we deal with group chats?
+ Refer the MicroService Design Document for the architecture...
+ 
+
